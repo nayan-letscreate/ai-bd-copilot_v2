@@ -1,0 +1,11 @@
+# Direct runtime dependencies. Edit this file, then regenerate the hash-pinned lock:
+#   pip-compile --generate-hashes --strip-extras -o requirements.txt requirements.in
+fastapi
+uvicorn[standard]
+anthropic
+httpx
+pydantic[email]
+pydantic-settings
+sqlalchemy
+psycopg[binary]
+python-multipart

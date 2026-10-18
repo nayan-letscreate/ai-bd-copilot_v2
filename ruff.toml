@@ -1,0 +1,11 @@
+line-length = 140
+target-version = "py312"
+
+[lint]
+select = ["E", "F", "W", "I", "B", "S", "UP", "SIM", "C4"]
+ignore = ["B008", "S101"]  # B008: FastAPI Depends() defaults are idiomatic; S101: asserts are used in tests
+
+[lint.per-file-ignores]
+"tests/*" = ["S105", "S106", "S108", "E501", "B017", "B018", "SIM117", "S311"]
+"smoke_test.py" = ["S105", "E402"]
+"scripts/*" = ["E402"]

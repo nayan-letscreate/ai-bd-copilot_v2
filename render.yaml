@@ -1,0 +1,53 @@
+# Render Blueprint: New -> Blueprint -> pick this repo.
+# After the first deploy, set the sync:false secrets in the Render dashboard (Environment tab).
+#
+# Plans: "free" is fine for a demo, but free web services sleep when idle (the background worker
+# stops with them) and free Postgres instances expire. Use paid plans for real use.
+databases:
+  - name: ai-bd-copilot-db
+    databaseName: bd_copilot
+    user: bd_copilot
+    plan: free
+
+services:
+  - type: web
+    name: ai-bd-copilot
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_API_KEYS
+        generateValue: true          # Render generates a strong random value; read it in the dashboard
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ai-bd-copilot-db
+          property: connectionString
+      - key: FORWARDED_ALLOW_IPS
+        value: "*"
+      - key: ANTHROPIC_MODEL
+        value: claude-sonnet-4-6
+      - key: PUBLIC_BASE_URL           # e.g. https://ai-bd-copilot.onrender.com
+        sync: false
+      - key: ALLOWED_HOSTS             # e.g. ai-bd-copilot.onrender.com
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: HUBSPOT_TOKEN
+        sync: false
+      - key: HUBSPOT_CLIENT_SECRET
+        sync: false
+      - key: SLACK_WEBHOOK_URL
+        sync: false
+      - key: SLACK_BOT_TOKEN
+        sync: false
+      - key: SLACK_CHANNEL_ID
+        sync: false
+      - key: SLACK_SIGNING_SECRET
+        sync: false
+      - key: SLACK_APPROVER_IDS
+        sync: false
